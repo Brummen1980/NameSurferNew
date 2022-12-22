@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -17,7 +16,9 @@
       fx:controller="com.example.namesurfer.MainController">
     <MenuBar>
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" text="Close"/>
+            <MenuItem mnemonicParsing="false" text="Open..." onAction="#onOpenMenuAction"/>
+            <MenuItem mnemonicParsing="false" text="Save..." onAction="#onSaveMenuAction"/>
+            <MenuItem mnemonicParsing="false" text="Close" onAction="#onCloseMenuAction"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem mnemonicParsing="false" text="Delete"/>
@@ -30,10 +31,11 @@
         <Label layoutX="14.0" layoutY="12.0" text="Name"/>
         <TextField fx:id="nameTextField" layoutX="56.0" layoutY="8.0" onAction="#onGraphButtonClick"
                    prefHeight="25.0" prefWidth="296.0"/>
-        <Button defaultButton="true" layoutX="359.0" layoutY="8.0" mnemonicParsing="false"
-                onAction="#onGraphButtonClick" prefHeight="25.0" prefWidth="79.0" text="Graph"/>
-        <Button layoutX="447.0" layoutY="8.0" mnemonicParsing="false" onAction="#onClearButtonClick"
-                prefHeight="25.0" prefWidth="79.0" text="Clear"/>
+        <Button fx:id="graphButton" defaultButton="true" layoutX="359.0" layoutY="8.0" mnemonicParsing="false"
+                onAction="#onGraphButtonClick" prefHeight="25.0" prefWidth="79.0" text="Graph"
+                disable="true"/>
+        <Button fx:id="clearButton" layoutX="447.0" layoutY="8.0" mnemonicParsing="false" onAction="#onClearButtonClick"
+                prefHeight="25.0" prefWidth="79.0" text="Clear" disable="true"/>
     </Pane>
     <LineChart fx:id="graphChart" prefHeight="244.0" prefWidth="550.0" VBox.vgrow="ALWAYS" legendSide="RIGHT">
       <xAxis>

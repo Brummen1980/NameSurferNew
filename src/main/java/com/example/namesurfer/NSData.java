@@ -1,35 +1,27 @@
 package com.example.namesurfer;
 
-import java.io.*;
-import java.util.Hashtable;
+import javafx.scene.control.Alert;
+
+import java.io.IOException;
 
 public class NSData {
-    public static final int DATE_START = 1900;
-    public static final int DATE_STEP = 10;
-    private final Hashtable<String, NSDataEntre> data = new Hashtable<>();
-    private String dataFileName;
+    private static final String DATA_FILENAME_DEFAULT = "assets/names-data.txt";
+    public static final String MSG_CANT_READ_DATA_FILE = "Can't read a data file %s";
+    public static final String MSG_TRY_OPEN_ANOTHER_FILE = "Try to open another file";
+    private static NSLoadedEntries loadedEntries;
+    public static NSLoadedEntries getLoadedEntries() {return loadedEntries;}
+    public static NSDrawnEntries getDrawnEntries() {return drawnEntries;}
+    private static final NSDrawnEntries drawnEntries = new NSDrawnEntries();
 
-    public NSData(String sourceFileName) throws IOException {
-        if (sourceFileName == null || sourceFileName.isEmpty()) sourceFileName = "assets/names-data.txt";
-        File sourceFile = new File(sourceFileName);
-        if (!(sourceFile.exists() && sourceFile.isFile())) throw new FileNotFoundException("File is not exist");
-
-        try (BufferedReader br = new BufferedReader(new FileReader(sourceFileName))) {
-            String str;
-            while ((str = br.readLine()) != null) {
-                NSDataEntre nde = new NSDataEntre(str);
-                if (data.containsKey(nde.GetName())) data.get(nde.GetName()).Add(nde);
-                else data.put(nde.GetName(), nde);
-            }
+    static {
+        try {
+            loadedEntries = new NSLoadedEntries(DATA_FILENAME_DEFAULT);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            SimpleAlert.showMessage(Alert.AlertType.ERROR, String.format(MSG_CANT_READ_DATA_FILE,
+                    DATA_FILENAME_DEFAULT), MSG_TRY_OPEN_ANOTHER_FILE);
         }
-        dataFileName = sourceFile.getPath();
     }
 
-    public String getDataFileName() {return dataFileName;}
-    public NSDataEntre getEntre(String name){
-        return data.get(Utils.Capitalize(name));
-    }
+
 
 }
